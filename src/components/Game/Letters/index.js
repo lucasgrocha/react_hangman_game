@@ -2,15 +2,18 @@ import React, { useState, useEffect, Fragment } from 'react'
 import Letter from './Letter'
 import styled from 'styled-components';
 import Phrase from './Phrase'
+import { Container, Row, Col } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 const _ = require('lodash');
 
 const LetterWrapper = styled.div`
-  margin-right: 10px;
-  margin-left: 10px;
+  margin-right: 3px;
+  margin-left: 3px;
+  display: inline-block;
 `;
 
 const Letters = props => {
-  const [splittedWord] = useState(props.word.split(''))
+  const [splittedWord] = useState(_.toUpper(props.word).split(''))
   const [lettersObj, setLettersObj] = useState([])
 
   useEffect(() => {
@@ -31,20 +34,28 @@ const Letters = props => {
   const lettersFactory = word => {
     let obj = []
     word.map((letter) => {
-      obj.push({ letter: letter, status: null })
+      obj.push({ letter: letter, status: 'secondary' })
     })
     setLettersObj(obj)
   }
 
   return (
-    <Fragment>
-      <Phrase letters={lettersObj} />
-      {lettersObj.map((value, index) => (
-        <LetterWrapper key={index}>
-          <Letter letter={value.letter} clicked={handleClickedLetter} status={value.status} />
-        </LetterWrapper>
-      ))}
-    </Fragment>
+    <Container>
+      <Row>
+        <Col sm={12}>
+          <Phrase letters={lettersObj} />
+        </Col>
+      </Row>
+      <Row>
+        <Col sm={12}>
+          {lettersObj.map((value, index) => (
+            <LetterWrapper key={index}>
+              <Letter letter={value.letter} clicked={handleClickedLetter} status={value.status} />
+            </LetterWrapper>
+          ))}
+        </Col>
+      </Row>
+    </Container>
   )
 }
 

@@ -1,11 +1,10 @@
 import React from 'react'
-import Button from '@material-ui/core/Button';
+import { Button } from 'react-bootstrap';
 
 const Letter = props => {
   return (
-    <Button
-      variant="contained"
-      color={props.status === 'correct' ? 'primary' : 'secondary'}
+    <Button variant="success"
+      variant={props.status === 'correct' ? 'success' : props.status === 'secondary' ? 'secondary' : 'danger'}
       onClick={() => props.clicked(props.letter)}>
       {props.letter}
     </Button>
