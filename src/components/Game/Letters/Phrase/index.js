@@ -1,4 +1,10 @@
 import React, { useEffect, useState } from 'react'
+import styled from 'styled-components';
+
+const StyledHeading = styled.h3`
+  display: inline-block;
+`;
+
 
 const Phrase = props => {
   const [word, setWord] = useState([])
@@ -6,11 +12,12 @@ const Phrase = props => {
   useEffect(() => {
     let buildedWord = []
     buildedWord.push(
-      props.letters.map((value, index) => {
-        return value.status === 'correct' ?
-          <span key={index}>{value.letter}</span> :
-          <span key={index}>_</span>
-      })
+      props.letters.map((value, index) => (
+        <StyledHeading
+          key={index}>
+          { value.status === 'correct' ? value.letter : '_' }
+        </StyledHeading>
+      ))
     )
 
     setWord(buildedWord)
