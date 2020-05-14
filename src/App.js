@@ -2,6 +2,7 @@ import React from 'react';
 import classes from './App.module.css';
 import Game from './components/Game'
 import styled from 'styled-components';
+const randomWords = require('random-words');
 
 const StyledBoard = styled.div`
   background-color: white;
@@ -18,7 +19,7 @@ const App = _ => {
   return (
     <div className={classes.App}>
       <StyledBoard>
-        <Game word={'lucas'} />
+        <Game word={randomWords()} />
       </StyledBoard>
     </div>
   );
