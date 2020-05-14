@@ -1,8 +1,9 @@
 import React from 'react'
+import Letters from './Letters'
 
-const Game = _ => {
+const Game = props => {  
   return (
-    null
+    <Letters word={props.word} />
   )
 }
 
