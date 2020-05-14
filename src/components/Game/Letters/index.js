@@ -9,20 +9,36 @@ const LetterWrapper = styled.div`
 `;
 
 const Letters = props => {
-  const [word, setWord] = useState('')
+  const [splittedWord] = useState(props.word.split(''))
+  const [lettersObj, setLettersObj] = useState([])
 
-  useEffect(() => {
-    setWord(props.word)
-  }, [props.word])
+  useEffect(() => { 
+    lettersFactory(splittedWord)
+  }, [splittedWord])
 
   const handleClickedLetter = letter => {
-    console.log(`${letter} ${word.includes(letter)}`)
+    const letters = lettersObj.map((value) => {
+      if (value.letter === letter) {
+        value.status = 'correct'
+      }
+      return value
+    })
+
+    setLettersObj(letters)
+  }
+
+  const lettersFactory = word => {
+    let obj = []
+    word.map((letter) => {
+      obj.push({letter: letter, status: null})
+    })
+    setLettersObj(obj)
   }
 
   return(
-    word.split('').map((letter, index) => (
+    lettersObj.map((value, index) => (
       <LetterWrapper key={index}>
-        <Letter letter={letter} clicked={handleClickedLetter}/>
+        <Letter letter={value.letter} clicked={handleClickedLetter} status={value.status}/>
       </LetterWrapper>
     ))
   )
