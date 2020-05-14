@@ -9,48 +9,53 @@ const _ = require('lodash');
 const LetterWrapper = styled.div`
   margin-right: 3px;
   margin-left: 3px;
+  margin-bottom: 5px;
   display: inline-block;
 `;
 
 const Letters = props => {
   const [splittedWord] = useState(_.toUpper(props.word).split(''))
-  const [lettersObj, setLettersObj] = useState([])
+  const [correctLetters, setCorrectLetters] = useState([])
+  const [incorrectLetters, setIncorrectLetters] = useState([])
 
   useEffect(() => {
-    lettersFactory(splittedWord)
+    setCorrectLetters(lettersFactory(splittedWord))
+  }, [splittedWord])
+
+  useEffect(() => {
+    setIncorrectLetters(lettersFactory([...splittedWord, ...['U', 'Y', 'Z']]))
   }, [splittedWord])
 
   const handleClickedLetter = letter => {
-    const letters = lettersObj.map((value) => {
+    const letters = correctLetters.map((value) => {
       if (value.letter === letter) {
         value.status = 'correct'
       }
       return value
     })
 
-    setLettersObj(letters)
+    setCorrectLetters(letters)
   }
 
-  const lettersFactory = word => {
-    let obj = []
-    word.map((letter) => {
-      obj.push({ letter: letter, status: 'secondary' })
-    })
-    setLettersObj(obj)
-  }
+  const lettersFactory = word => (
+    word.map((letter) => ({ letter: letter, status: 'secondary' }))
+  )
 
   return (
     <Container>
       <Row>
         <Col sm={12}>
-          <Phrase letters={lettersObj} />
+          <Phrase letters={correctLetters} />
         </Col>
       </Row>
       <Row>
         <Col sm={12}>
-          {lettersObj.map((value, index) => (
+          {correctLetters.map((value, index) => (
             <LetterWrapper key={index}>
-              <Letter letter={value.letter} clicked={handleClickedLetter} status={value.status} />
+              <Letter
+                letter={value.letter}
+                clicked={handleClickedLetter}
+                status={value.status} />
             </LetterWrapper>
           ))}
         </Col>
