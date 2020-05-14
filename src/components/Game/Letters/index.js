@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import Letter from './Letter'
 import styled from 'styled-components';
-import { useEffect } from 'react';
+import Phrase from './Phrase'
+const _ = require('lodash');
 
 const LetterWrapper = styled.div`
   margin-right: 10px;
@@ -12,7 +13,7 @@ const Letters = props => {
   const [splittedWord] = useState(props.word.split(''))
   const [lettersObj, setLettersObj] = useState([])
 
-  useEffect(() => { 
+  useEffect(() => {
     lettersFactory(splittedWord)
   }, [splittedWord])
 
@@ -30,17 +31,20 @@ const Letters = props => {
   const lettersFactory = word => {
     let obj = []
     word.map((letter) => {
-      obj.push({letter: letter, status: null})
+      obj.push({ letter: letter, status: null })
     })
     setLettersObj(obj)
   }
 
-  return(
-    lettersObj.map((value, index) => (
-      <LetterWrapper key={index}>
-        <Letter letter={value.letter} clicked={handleClickedLetter} status={value.status}/>
-      </LetterWrapper>
-    ))
+  return (
+    <Fragment>
+      <Phrase letters={lettersObj} />
+      {lettersObj.map((value, index) => (
+        <LetterWrapper key={index}>
+          <Letter letter={value.letter} clicked={handleClickedLetter} status={value.status} />
+        </LetterWrapper>
+      ))}
+    </Fragment>
   )
 }
 
