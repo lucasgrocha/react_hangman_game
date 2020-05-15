@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Letter from './Letter'
 import styled from 'styled-components';
-// import Phrase from './Phrase'
+import Phrase from './Phrase'
 import { Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 const _ = require('lodash');
@@ -19,10 +19,15 @@ const Letters = props => {
   const [mixedRandomLetters, setMixedRandomLetters] = useState([])
 
   useEffect(() => {
-    const wordAndLetters = _.toUpper(word + 'ZYX')
+    let wordAndLetters = _.toUpper(word + 'ZYXXX')
+    wordAndLetters = removeDuplicates(wordAndLetters)
     setRandomLetters(lettersFactory(wordAndLetters))
     setMixedRandomLetters(lettersFactory(_.shuffle(wordAndLetters.split('')).join('')))
   }, [word])
+
+  const removeDuplicates = word => {
+    return [...new Set(word.split(''))].join('')
+  }
 
   const handleClickedLetter = (letter, randomLetterIndex) => {
     const tmpMixed = [...mixedRandomLetters]
@@ -31,7 +36,7 @@ const Letters = props => {
       const array = mixedRandomLetters.map((value) => value.letter)
       const elemento = letter;
       var idx = array.indexOf(elemento);
-      while (idx != -1) {
+      while (idx !== -1) {
         indices.push(idx);
         idx = array.indexOf(elemento, idx + 1);
       }
@@ -42,7 +47,9 @@ const Letters = props => {
       tmpMixed[randomLetterIndex].status = 'incorrect'
     }
     console.clear()
+    console.log("Word: " + word)
     console.table(tmpMixed)
+    console.log()
     setMixedRandomLetters(tmpMixed)
   }
 
@@ -54,7 +61,7 @@ const Letters = props => {
     <Container>
       <Row>
         <Col sm={12}>
-          {/* <Phrase letters={correctLetters} /> */}
+          <Phrase letters={mixedRandomLetters} />
         </Col>
       </Row>
       <Row>
