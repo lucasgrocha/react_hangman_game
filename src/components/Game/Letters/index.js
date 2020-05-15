@@ -38,7 +38,7 @@ const Letters = props => {
   }
 
   const lettersFactory = word => (
-    word.map((letter) => ({ letter: letter, status: 'secondary' }))
+    word.map((letter) => ({ letter: letter, status: null }))
   )
 
   return (
