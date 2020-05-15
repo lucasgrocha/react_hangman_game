@@ -1,7 +1,7 @@
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { useState, useEffect } from 'react'
 import Letter from './Letter'
 import styled from 'styled-components';
-import Phrase from './Phrase'
+// import Phrase from './Phrase'
 import { Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 const _ = require('lodash');
@@ -14,50 +14,63 @@ const LetterWrapper = styled.div`
 `;
 
 const Letters = props => {
-  const [splittedWord] = useState(_.toUpper(props.word).split(''))
-  const [correctLetters, setCorrectLetters] = useState([])
-  const [incorrectLetters, setIncorrectLetters] = useState([])
+  const [word, setWord] = useState(_.toUpper(props.word))
+  const [randomLetters, setRandomLetters] = useState([])
+  const [mixedRandomLetters, setMixedRandomLetters] = useState([])
 
   useEffect(() => {
-    setCorrectLetters(lettersFactory(splittedWord))
-  }, [splittedWord])
+    const wordAndLetters = _.toUpper(word + 'ZYX')
+    setRandomLetters(lettersFactory(wordAndLetters))
+    setMixedRandomLetters(lettersFactory(_.shuffle(wordAndLetters.split('')).join('')))
+  }, [word])
 
-  useEffect(() => {
-    setIncorrectLetters(lettersFactory([...splittedWord, ...['U', 'Y', 'Z']]))
-  }, [splittedWord])
-
-  const handleClickedLetter = letter => {
-    const letters = correctLetters.map((value) => {
-      if (value.letter === letter) {
-        value.status = 'correct'
+  const handleClickedLetter = (letter, randomLetterIndex) => {
+    const tmpMixed = [...mixedRandomLetters]
+    if (word.split('').includes(letter)) {
+      const indices = [];
+      const array = mixedRandomLetters.map((value) => value.letter)
+      const elemento = letter;
+      var idx = array.indexOf(elemento);
+      while (idx != -1) {
+        indices.push(idx);
+        idx = array.indexOf(elemento, idx + 1);
       }
-      return value
-    })
-
-    setCorrectLetters(letters)
+      for (let index of indices) {
+        tmpMixed[index].status = 'correct'
+      }
+    } else {
+      tmpMixed[randomLetterIndex].status = 'incorrect'
+    }
+    console.clear()
+    console.table(tmpMixed)
+    setMixedRandomLetters(tmpMixed)
   }
 
-  const lettersFactory = word => (
-    word.map((letter) => ({ letter: letter, status: null }))
-  )
+  const lettersFactory = word => {
+    return word.split('').map((letter) => ({ letter: letter, status: null }))
+  }
 
   return (
     <Container>
       <Row>
         <Col sm={12}>
-          <Phrase letters={correctLetters} />
+          {/* <Phrase letters={correctLetters} /> */}
         </Col>
       </Row>
       <Row>
         <Col sm={12}>
-          {correctLetters.map((value, index) => (
-            <LetterWrapper key={index}>
-              <Letter
-                letter={value.letter}
-                clicked={handleClickedLetter}
-                status={value.status} />
-            </LetterWrapper>
-          ))}
+          {
+            mixedRandomLetters.map((value, index) => (
+              <LetterWrapper key={index}>
+                <Letter
+                  letter={value.letter}
+                  status={value.status}
+                  letterIndex={index}
+                  clicked={handleClickedLetter}
+                />
+              </LetterWrapper>
+            ))
+          }
         </Col>
       </Row>
     </Container>
