@@ -76,8 +76,10 @@ const Letters = props => {
       tmpMixed = doCorrection(mixedRandomLetters, letter)
       tmpCorrect = doCorrection(correctedWord, letter)
     } else {
-      tmpMixed[randomLetterIndex].status = 'incorrect'
-      props.changeLives(props.lives - 1)
+      if (tmpMixed[randomLetterIndex].status !== 'incorrect') {
+        tmpMixed[randomLetterIndex].status = 'incorrect'
+        props.changeLives(props.lives - 1)
+      }
     }
     setCorrectedWord(tmpCorrect)
     setMixedRandomLetters(tmpMixed)
