@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 const StyledHeading = styled.h3`
   display: inline-block;
+  color: ${props => props.children === '__' ? 'blue' : 'black'};
 `;
 
 
@@ -15,7 +16,7 @@ const Phrase = props => {
       props.letters.map((value, index) => (
         <StyledHeading
           key={index}>
-          { value.status === 'correct' ? value.letter : '_' }
+          { value.status === 'correct' ? value.letter : '__' }
         </StyledHeading>
       ))
     )

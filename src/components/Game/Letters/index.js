@@ -13,7 +13,7 @@ const LetterWrapper = styled.div`
 `
 
 const Letters = props => {
-  const [word, setWord] = useState('_.toUpper(props.word)')
+  const [word, setWord] = useState(' ')
   const [correctedWord, setCorrectedWord] = useState([])
   const [mixedRandomLetters, setMixedRandomLetters] = useState([])
   const [finished, setFinished] = useState(false)
