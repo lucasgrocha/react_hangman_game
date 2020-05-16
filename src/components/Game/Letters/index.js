@@ -31,7 +31,7 @@ const Letters = props => {
       setFinished(true)
       props.won()
     }
-  }, [correctedWord])
+  }, [props, correctedWord, word])
 
   useEffect(() => {
     if (props.lives === 0) {
