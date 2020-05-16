@@ -2,6 +2,7 @@ import React from 'react';
 import classes from './App.module.css';
 import Game from './components/Game'
 import styled from 'styled-components';
+import 'bootstrap/dist/css/bootstrap.min.css'
 const randomWords = require('random-words');
 
 const StyledBoard = styled.div`
@@ -13,7 +14,6 @@ const StyledBoard = styled.div`
   display: flex;
   justify-content: center;
 `;
-
 
 const App = _ => {
   return (

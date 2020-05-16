@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import Letter from './Letter'
 import styled from 'styled-components';
 import Phrase from './Phrase'
-import { Container, Row, Col } from 'react-bootstrap'
-import 'bootstrap/dist/css/bootstrap.min.css'
+import { Row, Col } from 'react-bootstrap'
 const _ = require('lodash')
 
 const LetterWrapper = styled.div`
@@ -30,7 +29,13 @@ const Letters = props => {
   }, [correctedWord])
 
   useEffect(() => {
-    let wordAndLetters = _.toUpper(word + 'ZYXXX')
+    if (props.lives === 0) {
+      setFinished(true)
+    }
+  }, [props.lives])
+
+  useEffect(() => {
+    let wordAndLetters = _.toUpper(word + 'ZYXÇQ')
     wordAndLetters = removeDuplicates(wordAndLetters)
 
     setCorrectedWord(lettersFactory(word))
@@ -83,7 +88,7 @@ const Letters = props => {
   }
 
   return (
-    <Container>
+    <Fragment>
       <Row>
         <Col sm={12}>
           <Phrase letters={correctedWord} />
@@ -106,7 +111,7 @@ const Letters = props => {
           }
         </Col>
       </Row>
-    </Container>
+    </Fragment>
   )
 }
 
