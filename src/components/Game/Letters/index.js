@@ -43,22 +43,26 @@ const Letters = props => {
   }
 
   const handleClickedLetter = (letter, randomLetterIndex) => {
-    const tmpMixed = [...mixedRandomLetters]
-    const tmpCorrect = [...correctedWord]
-    if (word.split('').includes(letter)) {
-      for (let index of getIndices(mixedRandomLetters, letter)) {
-        tmpMixed[index].status = 'correct'
-      }
+    classifyLetters(letter, randomLetterIndex)
+  }
 
-      for (let index of getIndices(correctedWord, letter)) {
-        tmpCorrect[index].status = 'correct'
-      }
+  const doCorrection = (array, searchedLetter) => {
+    const letterObj = [...array]
+    for (let index of getIndices(array, searchedLetter)) {
+      letterObj[index].status = 'correct'
+    }
+    return letterObj
+  }
+
+  const classifyLetters = (letter, randomLetterIndex) => {
+    let tmpMixed = [...mixedRandomLetters]
+    let tmpCorrect = [...correctedWord]
+    if (word.split('').includes(letter)) {
+      tmpMixed = doCorrection(mixedRandomLetters, letter)
+      tmpCorrect = doCorrection(correctedWord, letter)
     } else {
       tmpMixed[randomLetterIndex].status = 'incorrect'
     }
-    console.clear()
-    console.log("Word: " + word)
-    console.table(tmpCorrect)
     setCorrectedWord(tmpCorrect)
     setMixedRandomLetters(tmpMixed)
   }
