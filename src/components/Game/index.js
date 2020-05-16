@@ -5,12 +5,17 @@ import styled from 'styled-components'
 import Lives from './Lives'
 
 const StyledLivesCounter = styled.div`
-  
+  color: red;
+  svg {
+    font-size: 190%;
+    margin: 0.5%;
+  }
 `
 
 const StyledLetters = styled.div`
   text-align: center;
   width: 75vw;
+  margin: auto;
 `
 
 const Game = props => {
