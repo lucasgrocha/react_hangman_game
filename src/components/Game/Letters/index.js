@@ -25,6 +25,7 @@ const Letters = props => {
 
     if (currentBuiltWord === word) {
       setFinished(true)
+      props.won()
     }
   }, [correctedWord])
 

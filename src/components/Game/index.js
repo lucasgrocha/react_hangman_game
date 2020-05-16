@@ -1,6 +1,6 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState, useEffect } from 'react'
 import Letters from './Letters'
-import { Container, Row, Col } from 'react-bootstrap'
+import { Container, Row, Col, Button } from 'react-bootstrap'
 import styled from 'styled-components'
 import Lives from './Lives'
 
@@ -20,9 +20,21 @@ const StyledLetters = styled.div`
 
 const Game = props => {
   const [lives, setLives] = useState(4)
+  const [won, setWon] = useState(false)
+  const [lost, setLost] = useState(false)
 
-  const handleLives = count => {
-    setLives(count)
+  useEffect(() => {
+    if (lives === 0) {
+      setLost(true)
+    }
+  }, [lives])
+
+  const handleLives = lives => {
+    setLives(lives)
+  }
+
+  const handleVictory = _ => {
+    setWon(true)
   }
 
   return (
@@ -40,10 +52,17 @@ const Game = props => {
             <Letters
               word={props.word}
               lives={lives}
+              won={handleVictory}
               changeLives={handleLives} />
           </StyledLetters>
         </Col>
       </Row>
+      {
+        (won || lost) &&
+        <Button onClick={() => window.location.reload(true)}>
+          Reload Page
+        </Button>
+      }
     </Container>
   )
 }
