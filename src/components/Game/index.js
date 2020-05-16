@@ -2,6 +2,7 @@ import React, { useState, Fragment } from 'react'
 import Letters from './Letters'
 import { Container, Row, Col } from 'react-bootstrap'
 import styled from 'styled-components'
+import Lives from './Lives'
 
 const StyledLivesCounter = styled.div`
   
@@ -24,7 +25,7 @@ const Game = props => {
       <Row>
         <Col sm={12}>
           <StyledLivesCounter>
-            <span>{lives}</span>
+            <Lives lives={lives} />
           </StyledLivesCounter>
         </Col>
       </Row>
