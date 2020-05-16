@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import Letters from './Letters'
-import { Container, Row, Col, Button } from 'react-bootstrap'
+import { Container, Button } from 'react-bootstrap'
 import styled from 'styled-components'
 import Lives from './Lives'
+import RowCol from '../boostrap/RowCol'
 
 const StyledLivesCounter = styled.div`
   color: red;
@@ -39,24 +40,20 @@ const Game = props => {
 
   return (
     <Container>
-      <Row>
-        <Col sm={12}>
-          <StyledLivesCounter>
-            <Lives lives={lives} />
-          </StyledLivesCounter>
-        </Col>
-      </Row>
-      <Row>
-        <Col sm={12}>
-          <StyledLetters>
-            <Letters
-              word={props.word}
-              lives={lives}
-              won={handleVictory}
-              changeLives={handleLives} />
-          </StyledLetters>
-        </Col>
-      </Row>
+      <RowCol colSize={12}>
+        <StyledLivesCounter>
+          <Lives lives={lives} />
+        </StyledLivesCounter>
+      </RowCol>
+      <RowCol colSize={12}>
+        <StyledLetters>
+          <Letters
+            word={props.word}
+            lives={lives}
+            won={handleVictory}
+            changeLives={handleLives} />
+        </StyledLetters>
+      </RowCol>
       {
         (won || lost) &&
         <Button onClick={() => window.location.reload(true)}>
