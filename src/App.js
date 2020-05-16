@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classes from './App.module.css';
 import Game from './components/Game'
 import styled from 'styled-components';
@@ -15,10 +15,14 @@ const StyledBoard = styled.div`
 `;
 
 const App = _ => {
+  const [secretWord, setSecretWord] = useState(randomWords())
+
+  const changeWord = _ => { setSecretWord(randomWords()) }
+
   return (
     <div className={classes.App}>
       <StyledBoard>
-        <Game word={randomWords()} />
+        <Game word={secretWord} changeWord={changeWord} />
       </StyledBoard>
     </div>
   );

@@ -38,6 +38,17 @@ const Game = props => {
     setWon(true)
   }
 
+  const restartGame = _ => {
+    if (lost) {
+      alert(`The secret word was: ${props.word}`)
+    }
+
+    props.changeWord()
+    setWon(false)
+    setLost(false)
+    setLives(4)
+  }
+
   return (
     <Container>
       <RowCol colSize={12}>
@@ -56,7 +67,7 @@ const Game = props => {
       </RowCol>
       {
         (won || lost) &&
-        <Button onClick={() => window.location.reload(true)}>
+        <Button onClick={() => restartGame()}>
           Reload Page
         </Button>
       }

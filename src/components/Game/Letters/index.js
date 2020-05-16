@@ -13,10 +13,14 @@ const LetterWrapper = styled.div`
 `
 
 const Letters = props => {
-  const [word] = useState(_.toUpper(props.word))
+  const [word, setWord] = useState('_.toUpper(props.word)')
   const [correctedWord, setCorrectedWord] = useState([])
   const [mixedRandomLetters, setMixedRandomLetters] = useState([])
   const [finished, setFinished] = useState(false)
+
+  useEffect(() => {
+    setWord(_.toUpper(props.word))
+  }, [props.word])
 
   useEffect(() => {
     const currentBuiltWord = correctedWord
@@ -32,6 +36,8 @@ const Letters = props => {
   useEffect(() => {
     if (props.lives === 0) {
       setFinished(true)
+    } else {
+      setFinished(false)
     }
   }, [props.lives])
 
