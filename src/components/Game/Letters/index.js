@@ -17,6 +17,17 @@ const Letters = props => {
   const [word] = useState(_.toUpper(props.word))
   const [correctedWord, setCorrectedWord] = useState([])
   const [mixedRandomLetters, setMixedRandomLetters] = useState([])
+  const [finished, setFinished] = useState(false)
+
+  useEffect(() => {
+    const currentBuiltWord = correctedWord
+      .filter((value) => value.status === 'correct')
+      .map((value) => value.letter).join('')
+
+    if (currentBuiltWord === word) {
+      setFinished(true)
+    }
+  }, [correctedWord])
 
   useEffect(() => {
     let wordAndLetters = _.toUpper(word + 'ZYXXX')
@@ -38,7 +49,6 @@ const Letters = props => {
       indices.push(idx)
       idx = array.indexOf(letter, idx + 1)
     }
-
     return indices
   }
 
@@ -86,6 +96,7 @@ const Letters = props => {
                 <Letter
                   letter={value.letter}
                   status={value.status}
+                  finished={finished}
                   letterIndex={index}
                   clicked={handleClickedLetter}
                 />
